@@ -1,4 +1,4 @@
-import { createApp } from './app';
+import { app } from './app';
 import * as dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import swaggerUi from 'swagger-ui-express';
@@ -8,7 +8,6 @@ dotenv.config()
 
 
 async function startApp() {
-  let app = await createApp();
   try {
 
 

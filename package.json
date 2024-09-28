@@ -4,8 +4,7 @@
   "description": "library api gateway",
   "main": "index.js",
   "scripts": {
-    "test": "jest --verbose",
-    "test:ci": "jest",
+    "test": "jest --watchAll --no-cache",
     "start": "ts-node src/index.ts",
     "dev": "ts-node-dev --respawn --watch './src/routes/**/*' --poll src/index.ts"
   },
