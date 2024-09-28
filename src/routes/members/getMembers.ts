@@ -8,7 +8,7 @@ router.get('/api/members', async (req: Request, res:Response) => {
 	const limit = Number(req.query.limit) || 10;
 	const skip = (page - 1) * limit;
 	const members = await Member.aggregate([
-		{ $sort: { title: 1 } }, // Sort by title
+		{ $sort: { name: 1 } }, // Sort by title
 		{ $skip: skip }, // Skip for pagination
 		{ $limit: limit } // limit result
 ]);
@@ -17,7 +17,7 @@ const totalMembers = await Member.countDocuments();
 
 res.status(200).send({
 	status: "success",
-	totalMembers,
+	totalMembers: totalMembers,
 	totalPages: Math.ceil(totalMembers / limit),
 	currentPage: page,
 	data: members

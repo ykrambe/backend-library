@@ -385,8 +385,47 @@
       }
     },
     "/api/borrowing": {
+      "get": {
+        "summary": "Get Borrowing with pagination",
+        "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        }
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        }
+      }
+    ],
+        "responses": {
+          "200": {
+            "description": "get list of the borrowing with pagination",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Borrowing"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
       "post": {
-        "summary": "Create borrowing",
+        "summary": "Create borrowing with codeMember and codeBooks",
         "requestBody": {
           "content": {
             "application/json": {
@@ -430,7 +469,7 @@
     },
     "/api/return-borrowing": {
       "post": {
-        "summary": "Return borrowing",
+        "summary": "Return borrowing with codeMember and codeBooks",
         "requestBody": {
           "content": {
             "application/json": {
@@ -440,10 +479,10 @@
                   "codeBooks": {
                     "type": "array",
                     "items": {
-                      "type": "string"
-                    },
-                    "minItems": 1,
-                    "maxItems": 2       
+                      "type": "string",
+                      "minItems": 1,
+                      "maxItems": 2   
+                    }                        
                   },
                   "codeMember": {
                     "type": "string"
@@ -471,6 +510,55 @@
           }
         }
       }
+    },
+    "/api/borrowing/{id}": {
+      "get": {
+        "summary": "Get Borrowing of a member with pagination",
+        "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "page",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        }
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        }
+      }
+    ],
+        "responses": {
+          "200": {
+            "description": "get list of the borrowing of a member with pagination",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Borrowing"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -489,6 +577,10 @@
           "stock": {
             "type": "integer",
             "description": "Stock of the book."
+          },
+          "borrowed": {
+            "type": "integer",
+            "description": "Number of books borrowed."
           },
           "author": {
             "type": "string",
