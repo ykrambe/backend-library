@@ -1,5 +1,6 @@
 # backend-library
-this is backend of a library system with swagger documentation
+this is backend of a library system with swagger documentation, 
+im using node 18 for this project
 
 
 # HOW TO RUN
