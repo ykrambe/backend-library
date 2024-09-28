@@ -5,7 +5,6 @@ import helmet from 'helmet';
 import hpp from 'hpp';
 import cors from 'cors';
 
-import { errorHandler } from '@phibase/common-v2';
 
 import express from 'express'
 const bodyParser = require('body-parser');
@@ -16,46 +15,37 @@ import * as dotenv from 'dotenv'
 const path = require('path');
 dotenv.config({path:path.join(__dirname, '.env')})
 
-async function createApp(): Promise<any> {
-  let app = express();
+let app = express();
 
-  app.use(bodyParser.json());
-  app.use(
-    cookieSession({
-      signed: false,
-      secure: false,
-    }),
-  );
-  app.use(mongoSanitize());
-  app.use(helmet());
-  app.use(xss());
+app.use(bodyParser.json());
+app.use(
+  cookieSession({
+    signed: false,
+    secure: false,
+  }),
+);
+app.use(mongoSanitize());
+app.use(helmet());
+app.use(xss());
 
 const extension = 'ts';
 const routeDir = './routes';
 
-
-  fs.readdirSync(__dirname + '/routes').forEach(module => {
-    fs.readdirSync(__dirname + '/routes/' + module).forEach(router => {
-      if (router.split('.').pop() === extension) {
-        const routerPath = `${routeDir}/${module}/${router}`;
-        const createdRouter = require(routerPath);
-        const routerName = Object.keys(createdRouter)[0];
-        app.use(createdRouter[routerName]);
-      }
-    });
+fs.readdirSync(__dirname + '/routes').forEach(module => {
+  fs.readdirSync(__dirname + '/routes/' + module).forEach(router => {
+    if (router.split('.').pop() === extension) {
+      const routerPath = `${routeDir}/${module}/${router}`;
+      const createdRouter = require(routerPath);
+      const routerName = Object.keys(createdRouter)[0];
+      app.use(createdRouter[routerName]);
+    }
   });
+});
 
-  
-  app.use(hpp());
-  app.use(cors());
+app.use(hpp());
+app.use(cors());
 
-  app.use(errorHandler);
-
-
-
-  return app;
-}
 
 export {
-  createApp
+  app
 }

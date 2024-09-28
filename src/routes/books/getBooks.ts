@@ -18,7 +18,7 @@ const totalBooks = await Book.countDocuments();
 
 res.status(200).send({
 	status: "success",
-	totalBooks,
+	totalBooks: totalBooks,
 	totalPages: Math.ceil(totalBooks / limit),
 	currentPage: page,
 	data: books
